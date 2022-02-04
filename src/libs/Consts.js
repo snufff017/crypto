@@ -1,0 +1,1 @@
+export const AMOUNT_ZERO = 0.0

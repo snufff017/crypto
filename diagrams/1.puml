@@ -1,0 +1,17 @@
+@startuml
+!theme aws-orange
+start
+while (websocket available?)
+:read data;
+
+if (check msg type) then
+    :[ask] replaceAskPrice;
+    :asksBook.replacePrice;
+else
+    :[bid] replaceBidPrice;
+    :bidsBook.replacePrice;
+endif
+endwhile
+stop
+
+@enduml

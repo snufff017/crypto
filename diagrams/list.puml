@@ -1,0 +1,30 @@
+@startuml
+!theme mars
+
+
+rectangle NULL
+node Head 
+node node1
+node node2
+node Tail
+rectangle NULL.
+rectangle NodesByPrice
+
+
+
+NULL <-> Head : '         '
+Head <-> node1 : '         '
+node1 <-> node2 : '         '
+node2 <-> Tail : '         '
+Tail <-> NULL. : '         '
+NodesByPrice -up..> Head
+NodesByPrice -up..> node1
+NodesByPrice -up..> node2
+NodesByPrice -up..> Tail
+
+Head -down..> NodesByPrice
+node1 -down..> NodesByPrice
+node2 -down..> NodesByPrice
+Tail -down..> NodesByPrice
+
+@enduml

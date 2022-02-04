@@ -1,0 +1,29 @@
+@startuml
+title replacePrice func logic
+start
+
+partition makeOrGetNode {
+  if (Check price already exists in NodeByPrice) then
+    :[Exists] Get node by price from map;
+  else
+    :[New] Make new Node;
+  endif
+}
+
+if (No neighbours and not zero amount) then   
+  partition getNodePosition {    
+    if (No head and tail in list) then
+      :[true] return no position;
+    else
+      :check list's border;
+      :calculate average price;
+      :get custom position;
+    endif
+  }
+  :get node position;
+  :set neighbours;
+endif
+:update amount;
+:check list's head and tail;
+stop
+@enduml

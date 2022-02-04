@@ -1,0 +1,43 @@
+@startuml
+title Asks.getCustomPosition func logic
+start
+
+if (average price > price) then
+  :[true];
+  partition getNodePositionStartFrom {
+    while (position not found)
+      if (node.price === price) then
+        :[true] return node position;
+      endif
+      if (node.price > price) then
+        :[true] return no previous and node like next;
+      endif
+      if (node.next === null) then
+        :[true] return node like previous and no next;
+      endif
+      if ((node.price < price) && (node.next.price > price))  then
+        :[true] return node like previous and node.next like next;
+      endif
+    endwhile
+  }
+else
+  :[false];
+  partition getNodePositionEndAt {
+    while (position not found)
+      if (node.price === price) then
+        :[true] return node position;
+      endif
+      if (node.price < price) then
+        :[true] return node like previous and no next;
+      endif
+      if (node.next === null) then
+        :[true] return no previous and node like next;
+      endif
+      if ((node.price < price) && (node.next.price > price))  then
+        :[true] return node.previous like previous and node like next;
+      endif
+    endwhile
+  }
+endif
+stop
+@enduml
