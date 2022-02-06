@@ -1,10 +1,8 @@
-//import useStore from "hooks";
-import { useState, useEffect } from "react";
+import {  useEffect, useCallback } from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import moment from "moment";
-import { setSortedAsksOrderBook, setSortedBidsOrderBook } from "toolkitRedux/orderBookSlice";
-//import { useParams } from 'react-router-dom';
+import { setSortedAsksAndBidsOrderBook } from "toolkitRedux/orderBookSlice";
+import Timer from "atoms/timer";
 
 const Wrap = styled.div`
     position: relative;
@@ -12,14 +10,6 @@ const Wrap = styled.div`
     flex-direction: column;
     padding-left: 88px;
     margin-top: 36px;
-`
-const Time = styled.div`
-    position: relative;
-    text-align: center;
-    margin: 0 0 12px 0;
-    font-size: 12px;
-    border: 1px dotted;
-    padding: 16px 0;
 `
 
 const Content = styled.div`
@@ -58,55 +48,52 @@ export default function OrderBookView() {
 
     const dispatch = useDispatch();
 
-    const currentOrderBook = useSelector(state => state.orderBook.data);
+    const currentOrderBook = useSelector(state => state.orderBook.orderBookList);
     const sortedAsks = useSelector(state => state.orderBook.asksSorted);
     const sortedBids = useSelector(state => state.orderBook.bidsSorted);
 
-    const [currentTime, setCurrentTime] = useState(moment().format('hh:mm:ss'));
-
     useEffect(() => {
-        if(currentOrderBook !== null){
-            dispatch(setSortedAsksOrderBook(currentOrderBook.asksBook.book.list));
-            dispatch(setSortedBidsOrderBook(currentOrderBook.bidsBook.book.list));
+        if(Object.keys(currentOrderBook).length){
+
+        let payload = {
+            asks: currentOrderBook.asksBook.book.list,
+            bids: currentOrderBook.bidsBook.book.list
         }
+        
+        dispatch(setSortedAsksAndBidsOrderBook(payload))
+    }
         
     }, [currentOrderBook]);
   
-    useEffect(() => {
-        const timer = setInterval(() => { 
-            setCurrentTime(moment().format('hh:mm:ss'));
-          }, 1000);
-          return () => {
-            clearInterval(timer);
-          }
-    }, [currentTime]);
 
+    const renderColumn = useCallback(
+        (list, typeData) => {
+            let row = list.head
+            let rows = [];
+            let index = 1;
+    
+            while (row && row !== null) {
+                index++;
+                rows.push(<Row type={typeData} key={index}>
+                    <Col>{row.price}</Col>                       
+                    <Col>{row.amount}</Col>
+                </Row>);
+                row = row.next
+            }
 
-    const renderColumn = (list, typeData) => {
-        let row = list.head
-        let rows = [];
-        
-        while (row && row !== null) {
-            rows.push(<Row type={typeData}>
-                <Col>{row.price}</Col>                       
-                <Col>{row.amount}</Col>
-            </Row>);
-            row = row.next
-        }
-
-        return (
-            <Block>
-                <Header>{typeData}</Header>
-                {rows}
-            </Block>
-        )
-    }
-
- //   console.log('currentOrderBook', currentOrderBook)
+              return (
+                <Block>
+                    <Header>{typeData}</Header>
+                    {rows}
+                </Block>
+            )
+        },
+       []
+    )
 
     return(
         <Wrap>
-            <Time>{currentTime}</Time>
+            <Timer />
             <Content>
                 {renderColumn(sortedAsks, 'ASKS')}
                 {renderColumn(sortedBids, 'BIDS')}

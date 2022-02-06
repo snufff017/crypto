@@ -44,21 +44,22 @@ const SideBar = styled.div`
 
  const MarketView = ({data}) => {
 
+   // console.log('render MarketView')
+
     return (
         <Layout>
             <Body>
                 <Content>
                     {/* <SimpleLineChart data={data} /> */}
                     {/* <SimpleBarChart data={data} /> */}
-                    <OrderBookDepthChart />
-                    {/* <OrderBookView ></OrderBookView> */}
+                    {/* <OrderBookDepthChart /> */}
 
                 </Content>
-                <SideBar>
+                {/* <OrderBookView ></OrderBookView> */}
+                {/* <SideBar>
                     <UserPanel />
                     <OrderBookView ></OrderBookView>
-
-                </SideBar>
+                </SideBar> */}
             </Body>
         </Layout>
     )

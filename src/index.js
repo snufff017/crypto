@@ -1,8 +1,7 @@
 import React from 'react';
-import { ReactDOM } from 'react';
+import  ReactDOM  from 'react-dom';
 import 'index.css';
 import RoutesSwitch from 'routes';
-import { Provider } from 'react';
 import { store } from 'toolkitRedux/store';
 import GlobalFonts from 'fonts/fonts';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -15,5 +14,6 @@ ReactDOM.render(
             <RoutesSwitch />
         </Router>
     </Provider>,
-    document.getElementById('root');
+    document.getElementById('root')
+    ,
 )

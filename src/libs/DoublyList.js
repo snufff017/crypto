@@ -38,6 +38,7 @@ DoublyList.prototype.updateNodeAmount = function(node, amount) {
     }
     node.switchNeighborsOnRemoving()
     delete this.nodesByPrice[node.price]
+    node = null
 };
 
 DoublyList.prototype.checkEnds = function(node) {

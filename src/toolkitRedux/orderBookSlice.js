@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const orderBookSlice = createSlice({
     name: 'orderBook',
     initialState: {  
-        data: null,
+        orderBookList: {},
         asksSorted: [],
         bidsSorted: [],
     },
@@ -11,18 +11,30 @@ const orderBookSlice = createSlice({
     // в свойстве reducers создаем экшены
     reducers: {
         setOrderBook(state, action) {
-            state.data  = action.payload 
+            console.log('setOrderBook')
+            return {
+                ...state,
+                orderBookList: {
+                    ...action.payload
+                },
+            }
         },
-        setSortedAsksOrderBook(state, action) {
-            state.asksSorted  = action.payload;
+        setSortedAsksAndBidsOrderBook(state, action) {
+            state.asksSorted  = action.payload.asks;
+            state.bidsSorted  = action.payload.bids; 
         },
-        setSortedBidsOrderBook(state, action) {
-            state.bidsSorted  = action.payload;
+        setTestOrderBook(state, action) {
+            return {
+                ...state,
+                orderBookList: {
+                    ...action.payload
+                },
+            }
         },
+
     }
 })
 
 export default orderBookSlice.reducer
 
-// нужно экшены экспортировать особенным образом
-export const {setOrderBook, setSortedAsksOrderBook, setSortedBidsOrderBook} = orderBookSlice.actions
+export const {setOrderBook,  setSortedAsksAndBidsOrderBook, setTestOrderBook} = orderBookSlice.actions;

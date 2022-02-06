@@ -1,7 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import moment from 'moment';
 
-
 const userPanelSlice = createSlice({
     name: 'userPanel',
     initialState: {
@@ -11,11 +10,8 @@ const userPanelSlice = createSlice({
             finish: 0
         }
     },
-
-    // в свойстве reducers создаем экшены
     reducers: {
         calculateBuying(state, action){
-            console.log('calculateBuying')
             let currentBuying = {};
             currentBuying['count'] = action.payload[0];
             currentBuying['amount'] = action.payload[1];
@@ -41,5 +37,4 @@ const userPanelSlice = createSlice({
 
 export default userPanelSlice.reducer
 
-// нужно экшены экспортировать особенным образом
 export const {calculateBuying} = userPanelSlice.actions

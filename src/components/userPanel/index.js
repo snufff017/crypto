@@ -70,7 +70,7 @@ const UserPanel = () => {
         setIsDisabledBuying(false)
         setIntervalId(clearInterval(intervalId))
     }
-    console.log('currentOrderBook', currentOrderBook)
+
     return (
         <div>
             <Input

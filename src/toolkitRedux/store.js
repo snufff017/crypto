@@ -1,11 +1,12 @@
 import { combineReducers, configureStore, createEntityAdapter } from '@reduxjs/toolkit'
 import orderBookSlice from './orderBookSlice';
-import {wsAPI} from 'toolkitAPI/websocket-copy'
+import {wsAPI} from 'toolkitAPI/websocket'
 import userPanelSlice from './userPanelSlice';
 
 const rootReducer = combineReducers({
     userPanel: userPanelSlice,
     orderBook: orderBookSlice,
+    [wsAPI.reducerPath]: wsAPI.reducer
 })
 
 export const store = configureStore({
