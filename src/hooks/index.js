@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import { OrderBook } from "libs/OrderBook";
 import { ArrayOrderBook } from "libs/Tests/Array";
-import { setOrderBook } from "toolkitRedux/orderBookSlice";
+import { setOrderBook } from "redux/orderBookSlice";
 
 const DOMAIN_WS = 'wss://beta-ws.kraken.com';
 const TYPE_REQUESTED_DATA_BTC = {
@@ -11,7 +11,7 @@ const TYPE_REQUESTED_DATA_BTC = {
     reqid: 1,
     subscription: {
         name: "book",
-        depth: 1000
+        depth: 10
     }
 }
 const TYPE_REQUESTED_DATA_ETH = {
@@ -50,7 +50,7 @@ const TYPE_REQUESTED_DATA_LTC = {
     reqid: 1,
     subscription: {
         name: "book",
-        depth: 1000
+        depth: 100
     }
 }
 
@@ -60,7 +60,7 @@ export const useAPIWebsocket = (wsChannel) => {
     const dispatch = useDispatch();
     const currentOrderBook = useSelector(state => state.orderBook.data);
 
-    const tempOrderBook = new ArrayOrderBook();
+    const tempOrderBook = new OrderBook();
     const [status, setStatus] = useState("");
 
     let testArray = [];
@@ -75,24 +75,24 @@ export const useAPIWebsocket = (wsChannel) => {
             wsChannel.current.send(JSON.stringify(
                 TYPE_REQUESTED_DATA_BTC
             ));
-            wsChannel.current.send(JSON.stringify(
-                TYPE_REQUESTED_DATA_ETH
-            ));
-            wsChannel.current.send(JSON.stringify(
-                TYPE_REQUESTED_DATA_TRX
-            ));
-            wsChannel.current.send(JSON.stringify(
-                TYPE_REQUESTED_DATA_ALGO
-            ));
-            wsChannel.current.send(JSON.stringify(
-                TYPE_REQUESTED_DATA_LTC
-            ));
+            // wsChannel.current.send(JSON.stringify(
+            //     TYPE_REQUESTED_DATA_ETH
+            // ));
+            // wsChannel.current.send(JSON.stringify(
+            //     TYPE_REQUESTED_DATA_TRX
+            // ));
+            // wsChannel.current.send(JSON.stringify(
+            //     TYPE_REQUESTED_DATA_ALGO
+            // ));
+            // wsChannel.current.send(JSON.stringify(
+            //     TYPE_REQUESTED_DATA_LTC
+            // ));
         };	
         wsChannel.current.onmessage = e => {
             
             let data = JSON.parse(e.data)
             if (!data[1]) {
-                console.log("data", data)
+              //  console.log("data", data)
                 return
             }
 
@@ -130,8 +130,9 @@ export const useAPIWebsocket = (wsChannel) => {
         dispatch(setOrderBook(tempOrderBook))
 
         const timerId = setInterval(function() {
+           dispatch(setOrderBook(null))
            dispatch(setOrderBook(tempOrderBook))
-        }, 10000)
+        }, 4000)
 
         return () => clearInterval(timerId);
     }, [])

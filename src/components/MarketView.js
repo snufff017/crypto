@@ -7,6 +7,7 @@ import { OrderBookDepthChart } from './charts/orderBookDepthChart';
 import UserPanel from './userPanel';
 import {useDispatch, useSelector} from 'react-redux';
 import OrderBookView from './OrderBookView';
+import {  useEffect, useState } from "react";
 
 const Layout = styled.div`
     min-height: 320px;
@@ -32,6 +33,7 @@ const Content = styled.div`
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
+    max-width: 600px;
 `
 
 const SideBar = styled.div`
@@ -44,22 +46,20 @@ const SideBar = styled.div`
 
  const MarketView = ({data}) => {
 
-   // console.log('render MarketView')
 
     return (
         <Layout>
             <Body>
                 <Content>
-                    {/* <SimpleLineChart data={data} /> */}
-                    {/* <SimpleBarChart data={data} /> */}
-                    {/* <OrderBookDepthChart /> */}
+                <UserPanel />
+                    <OrderBookDepthChart /> 
 
                 </Content>
-                {/* <OrderBookView ></OrderBookView> */}
-                {/* <SideBar>
-                    <UserPanel />
+               
+                <SideBar>
+                   
                     <OrderBookView ></OrderBookView>
-                </SideBar> */}
+                </SideBar>
             </Body>
         </Layout>
     )

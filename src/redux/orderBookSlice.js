@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const orderBookSlice = createSlice({
     name: 'orderBook',
     initialState: {  
-        orderBookList: {},
+        orderBookList: null,
         asksSorted: [],
         bidsSorted: [],
     },
@@ -11,13 +11,14 @@ const orderBookSlice = createSlice({
     // в свойстве reducers создаем экшены
     reducers: {
         setOrderBook(state, action) {
-            console.log('setOrderBook')
-            return {
-                ...state,
-                orderBookList: {
-                    ...action.payload
-                },
-            }
+            state.orderBookList  = action.payload;
+         //   console.log('setOrderBook')
+            // return {
+            //     ...state,
+            //     orderBookList: {
+            //         ...action.payload
+            //     },
+            // }
         },
         setSortedAsksAndBidsOrderBook(state, action) {
             state.asksSorted  = action.payload.asks;

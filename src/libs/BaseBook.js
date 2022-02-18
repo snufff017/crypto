@@ -5,7 +5,7 @@ export const BaseBook = function (book) {
 }
 
 BaseBook.prototype.getNodePosition = function(price) {
-    var doublyList = this.book.getList()
+    let doublyList = this.book.getList()
     if (doublyList.head === null && doublyList.tail === null) {
         return [null, null];
     }
@@ -15,20 +15,20 @@ BaseBook.prototype.getNodePosition = function(price) {
     if (doublyList.tail === null) {
         return this.book.getNodePositionStartFrom(doublyList.head, price)
     }
-    var headPrice = doublyList.head.price
-    var tailPrice = doublyList.tail.price
-    var middlePrice = (headPrice + tailPrice) / 2
+    let headPrice = doublyList.head.price
+    let tailPrice = doublyList.tail.price
+    let middlePrice = (headPrice + tailPrice) / 2
     return this.book.getCustomPosition(middlePrice, price)
 };
 
 
 BaseBook.prototype.replacePrice = function(price, amount) {
-    var node = this.book.getList().makeOrGetNode(price)
+    let node = this.book.getList().makeOrGetNode(price)
     if (node.previous === null 
             && node.next === null 
             && amount !== AMOUNT_ZERO) {
 
-        var position = this.getNodePosition(price)
+                let position = this.getNodePosition(price)
 
         node.previous = position[0]
         node.next = position[1]
@@ -59,7 +59,7 @@ BaseBook.prototype.calculateAmountAndCost = function(amount, inverseCurrency) {
                 break
             }
         } else {
-            let extraAmount = cumulativeAmount + itemAmount - amount
+            let extraAmount = (cumulativeAmount + itemAmount) - amount
             let needAmount = itemAmount - extraAmount
             let needCost = needAmount * node.price
             if (inverseCurrency) {

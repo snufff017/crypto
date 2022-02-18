@@ -8,26 +8,26 @@ export const DoublyList = function () {
     this.nodesByPrice = {};
 }
 
-DoublyList.prototype.add = function(price, amount) {
+// DoublyList.prototype.add = function(price, amount) {
 
-    var node = this.makeOrGetNode(price);
+//     let node = this.makeOrGetNode(price);
 
-    if (this._length) {
+//     if (this._length) {
 
-        this.tail.next = node;
-        node.previous = this.tail;
-        this.tail = node;
+//         this.tail.next = node;
+//         node.previous = this.tail;
+//         this.tail = node;
 
-    } else {
-        this.head = node;
-        this.tail = node;
-    }
+//     } else {
+//         this.head = node;
+//         this.tail = node;
+//     }
 
-    this.nodesByPrice[node?.price] = node;
-    this._length++;
+//     this.nodesByPrice[node?.price] = node;
+//     this._length++;
 
-    return node;
-};
+//     return node;
+// };
 
 DoublyList.prototype.updateNodeAmount = function(node, amount) {
     node.amount = amount
@@ -72,7 +72,7 @@ DoublyList.prototype.makeOrGetNode = function(price) {
     if (this.nodesByPrice[price]) { // todo fix condition
         return this.nodesByPrice[price];
     }
-    var node = new Node(price);
+    let node = new Node(price);
     node.price = price
     return node
 };

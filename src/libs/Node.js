@@ -6,8 +6,8 @@ export const Node = function (price) {
 }
 
 Node.prototype.updateNeighbors = function() {
-    var nextNode = this.next
-    var prevNode = this.previous
+    let nextNode = this.next
+    let prevNode = this.previous
 
     if (prevNode !== null) {
         prevNode.next = this
@@ -18,8 +18,8 @@ Node.prototype.updateNeighbors = function() {
 };
 
 Node.prototype.switchNeighborsOnRemoving = function() {
-    var nextNode = this.next
-    var prevNode = this.previous
+    let nextNode = this.next
+    let prevNode = this.previous
     
     if (prevNode !== null) {
         prevNode.next = nextNode

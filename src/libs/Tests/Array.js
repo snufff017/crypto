@@ -52,16 +52,20 @@ const calculateAmountAndCost = function(book, amount, inverseCurrency) {
             if (cumulativeAmount == amount) {
                 break
             }
+            // если есть отстаток в ОБ (есть остаток после набранного объема)
         } else {
+
+            // 
             let extraAmount = cumulativeAmount + itemAmount - amount
             let needAmount = itemAmount - extraAmount
             let needCost = needAmount * node.price
+
             if (inverseCurrency) {
                 needCost = needAmount / node.price
             }
             cumulativeAmount = cumulativeAmount + needAmount
             cumulativeCost = cumulativeCost + needCost
-            break
+            break;
         }
     }
     return [cumulativeAmount, cumulativeCost]
@@ -84,6 +88,7 @@ const replacePrice = (book, price, amount, sortFunc) => {
             newBook.push(el)
         }
     })
+
     if (!found) {
         let newNode = {
             price: price,

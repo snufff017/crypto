@@ -11,62 +11,66 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {  useEffect, useState } from "react";
 
-const barColors = {"asks": "rgba(234,13,63,1)", "bids": "rgb(130,202,157)"}
+const barColors = {"asks": "#1f77b4", "bids": "#ff7f0e"}
+
+const data = [
+  {
+    amt: 40031.8,
+    bid: 40031.8,
+    name: 40031.8,
+    tooltip: 40031.8
+  }
+];
 
 
-export const OrderBookDepthChart = (props) => {
+export const OrderBookDepthChartTest = (props) => {
+  let fullBook = [];
 
   const currentOrderBook = useSelector(state => state.orderBook.orderBookList);
 
-  const [showedFullBook, setShowedFullBook] = useState([]);
-
+  const [showedFullBook, setShowedFullBook] = useState(fullBook);
   useEffect(() => {
-      console.log('currentOrderBooka adfadf', currentOrderBook)
-
+      
       let tempFullBook = [];
       if (currentOrderBook !== null) {
         let bid = currentOrderBook.bidsBook.book.list.head
         let amount = 0
         while (bid !== null) {
           amount += bid.amount
-          const culc = currentOrderBook.sellPrice(amount)
-          const avgPrice = Math.round(culc[1] / culc[0], -2)
           const newRow = {
-            name: avgPrice,
-            tooltip: avgPrice,
+            name: bid.price,
+            tooltip: bid.price,
             bid: amount,
-            price: avgPrice
+            price: bid.price
           }
           tempFullBook.unshift(newRow)
           bid = bid.next
         }
 
 
-        let ask = currentOrderBook.asksBook.book.list.head
+        let ask = currentOrderBook.asksBook.book.list.tail
         amount = 0
         while (ask !== null) {
           amount += ask.amount
-          const culc = currentOrderBook.buyPrice(amount)
-          const avgPrice = Math.round(culc[1] / culc[0], -2)
           const newRow = {
-            name: avgPrice,
-            tooltip: avgPrice,
+            name: ask.price,
+            tooltip: ask.price,
             ask: amount,
-            price: avgPrice
+            price: ask.price
           }
           tempFullBook.push(newRow)
-          ask = ask.next
+          ask = ask.previous
         }
-        setShowedFullBook(tempFullBook)
       }
 
+      setShowedFullBook(tempFullBook)
  }, [currentOrderBook]);
 
 
   return (
     <BarChart
-      width={600}
-      height={400}
+      width={800}
+      height={300}
       data={showedFullBook}
       margin={{
         top: 5,
@@ -78,8 +82,8 @@ export const OrderBookDepthChart = (props) => {
       <CartesianGrid strokeDasharray="3 3" />
       <YAxis />
       <XAxis dataKey="price" name="Price" />
-      <Bar isAnimationActive={false} dataKey="ask" name="" stackId="a" fill={barColors["asks"]} />
-      <Bar isAnimationActive={false} dataKey="bid" unit="" stackId="a" fill={barColors["bids"]} />
+      <Bar isAnimationActive={false} dataKey="ask" name="" stackId="a" fill={barColors["bids"]} />
+      <Bar isAnimationActive={false} dataKey="bid" unit="" stackId="a" fill={barColors["asks"]} />
     </BarChart>
   );
 }

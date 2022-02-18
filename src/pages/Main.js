@@ -15,10 +15,10 @@ const MainPage = () =>  {
         bids: []
     }
 
-    //   if(orderBook !== null) {
-    //     dataForChart['asks'] = Object.keys(orderBook?.asksBook?.book?.list?.nodesByPrice);
-    //     dataForChart['bids'] = Object.keys(orderBook?.bidsBook?.book?.list?.nodesByPrice);
-    // }
+    if(orderBook !== null) {
+        // dataForChart['asks'] = Object.keys(orderBook?.asksBook?.book?.list?.nodesByPrice);
+        // dataForChart['bids'] = Object.keys(orderBook?.bidsBook?.book?.list?.nodesByPrice);
+    }
      
     return(
             <MarketView data={dataForChart} />

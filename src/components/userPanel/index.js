@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import Button from 'atoms/Button';
 import Input from 'atoms/Input';
 import styled from 'styled-components';
-import { calculateBuying } from "toolkitRedux/userPanelSlice";
+import { calculateBuying } from "redux/userPanelSlice";
 import {useDispatch, useSelector} from 'react-redux';
 import { SimpleLineChartBuying } from 'components/charts/simpleLineChartBuying'
 
@@ -21,49 +21,22 @@ const UserPanel = () => {
     const [isDisabledBuying, setIsDisabledBuying] = useState(false);
 
     const dispatch = useDispatch();
-    const currentOrderBook = useSelector(state => state.orderBook.data);
+    const currentOrderBook = useSelector(state => state.orderBook.orderBookList);
     const buying = useSelector(state => state.userPanel);
 
     const debouncedCalculateBuying = debounce((buying) => dispatch(calculateBuying(buying)), 600)  
-   
-    useEffect(() => {
-
-        if(currentOrderBook != null && countBuying) {
-            const buying = currentOrderBook.buyPrice(countBuying, false);
-            dispatch(calculateBuying(buying))
-           // dispatch(calculateBuying(buying))
-          //  debouncedCalculateBuying(buying)
-        }
-        
-       
-    }, [currentOrderBook])
 
        useEffect(() => {
-
-        if(currentOrderBook != null && countBuying) {
+        if(currentOrderBook != null) {
             const buying = currentOrderBook.buyPrice(countBuying, false);
-           // dispatch(calculateBuying(buying))
-            debouncedCalculateBuying(buying)
+         //   console.log('currentOrderBook', currentOrderBook)
+            dispatch(calculateBuying(buying))
         }
-        
-       
-    }, [currentOrderBook, countBuying])
+    }, [currentOrderBook])
 
     const onClick = (e) => {
-
-        if(intervalId) {
-            setIntervalId(clearInterval(intervalId));
-        }
-
-        setIsDisabledBuying(true);
-
-        let intervalIdCurrent = setInterval(() =>{
-            const buying = currentOrderBook.buyPrice(countBuying, false);
-            dispatch(calculateBuying(buying))
-        }, 5000);
-
-        setIntervalId(intervalIdCurrent)
-        
+        const buying = currentOrderBook.buyPrice(countBuying, false);
+        dispatch(calculateBuying(buying)) 
     }
 
     const stopBuildingChart = () => {
@@ -80,7 +53,7 @@ const UserPanel = () => {
                 label='Введите количество валюты'
             />
             <ButtonsWrap>   
-                <Button onClick={onClick}text='Calculate'/>
+                <Button onClick={(e) => {onClick(e)}}text='Calculate'/>
                 <Button disabled={!isDisabledBuying} onClick={stopBuildingChart}text='Stop monitoring'/>
             </ButtonsWrap>
             <SimpleLineChartBuying data={buying} />

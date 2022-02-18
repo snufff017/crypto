@@ -1,7 +1,7 @@
 import {  useEffect, useCallback } from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import { setSortedAsksAndBidsOrderBook } from "toolkitRedux/orderBookSlice";
+import { setSortedAsksAndBidsOrderBook } from "redux/orderBookSlice";
 import Timer from "atoms/timer";
 
 const Wrap = styled.div`
@@ -9,7 +9,7 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: column;
     padding-left: 88px;
-    margin-top: 36px;
+    margin-top: 23px;
 `
 
 const Content = styled.div`
@@ -45,23 +45,24 @@ const Col = styled.div`
     }
 `
 export default function OrderBookView() {
+  
 
     const dispatch = useDispatch();
 
     const currentOrderBook = useSelector(state => state.orderBook.orderBookList);
     const sortedAsks = useSelector(state => state.orderBook.asksSorted);
     const sortedBids = useSelector(state => state.orderBook.bidsSorted);
-
+  
     useEffect(() => {
-        if(Object.keys(currentOrderBook).length){
+       //  console.log('113', currentOrderBook)
+        if(currentOrderBook !== null && Object.keys(currentOrderBook.asksBook).length){
 
         let payload = {
             asks: currentOrderBook.asksBook.book.list,
             bids: currentOrderBook.bidsBook.book.list
         }
-        
         dispatch(setSortedAsksAndBidsOrderBook(payload))
-    }
+        }
         
     }, [currentOrderBook]);
   

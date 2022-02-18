@@ -8,7 +8,7 @@ const Time = styled.div`
     margin: 0 0 12px 0;
     font-size: 12px;
     border: 1px dotted;
-    padding: 16px 0;
+    padding: 5px 0;
 `
 
 export default function Timer() {

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { OrderBook } from "libs/OrderBook";
-import { setOrderBook } from "toolkitRedux/orderBookSlice";
+import { setOrderBook } from "redux/orderBookSlice";
 
 export const wsAPI = createApi({
     reducerPath: 'wsAPI',
